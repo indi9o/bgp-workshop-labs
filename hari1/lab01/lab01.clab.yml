@@ -1,0 +1,24 @@
+name: lab01-ebgp
+
+topology:
+  nodes:
+    umm-border:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - umm-border/:/etc/frr/
+      exec:
+        - ip addr add 100.64.0.2/30 dev eth1
+        - ip link set eth1 up
+
+    idren-pop:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - idren-pop/:/etc/frr/
+      exec:
+        - ip addr add 100.64.0.1/30 dev eth1
+        - ip link set eth1 up
+
+  links:
+    - endpoints: ["umm-border:eth1", "idren-pop:eth1"]
