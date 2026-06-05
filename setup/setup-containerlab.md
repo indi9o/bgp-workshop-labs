@@ -7,7 +7,7 @@ Last updated: 2026-06-04
 
 ## Ringkasan
 
-Semua lab dijalankan di dalam **VM Ubuntu** (bukan WSL2). ContainerLab dan Docker berjalan lebih stabil di VM Linux dibanding WSL2 karena tidak ada lapisan virtualisasi tambahan dan networking berjalan native.
+Semua lab dijalankan di dalam **VM Ubuntu**. ContainerLab dan Docker berjalan lebih stabil di VM Linux dibanding WSL2 karena tidak ada lapisan virtualisasi tambahan dan networking berjalan native.
 
 Yang dibutuhkan di laptop:
 1. **VirtualBox** — hypervisor gratis untuk menjalankan VM Ubuntu
