@@ -103,7 +103,7 @@ Harus muncul `100.68.1.0/24`.
 
 ### 3. BGP table
 ```
-show ip bgp
+show bgp ipv4 unicast
 ```
 Harus ada `100.68.1.0/24` (prefix UMM, local) dan `100.68.0.0/16` (dari IDREN).
 
@@ -116,7 +116,7 @@ show ip route bgp
 ### 5. Verifikasi dari sisi IDREN PoP
 ```bash
 docker exec -it clab-lab01-ebgp-idren-pop vtysh -c "show bgp summary"
-docker exec -it clab-lab01-ebgp-idren-pop vtysh -c "show ip bgp"
+docker exec -it clab-lab01-ebgp-idren-pop vtysh -c "show bgp ipv4 unicast"
 ```
 Prefix `100.68.1.0/24` dari UMM harus terlihat di BGP table `idren-pop`.
 
@@ -127,19 +127,18 @@ Prefix `100.68.1.0/24` dari UMM harus terlihat di BGP table `idren-pop`.
 **`show bgp summary` di umm-border:**
 ```
 Neighbor     V    AS  MsgRcvd  MsgSent  Up/Down  State/PfxRcd  PfxSnt
-100.64.0.1   4  65000        6        6 00:01:23             1       2
+100.64.0.1   4  65000        6        6 00:01:23             1       1
 ```
 
 **`show bgp ipv4 unicast neighbors 100.64.0.1 advertised-routes`:**
 ```
    Network          Next Hop            Metric LocPrf Weight Path
-*> 100.68.0.0/16   0.0.0.0                                0 65000 i
 *> 100.68.1.0/24   0.0.0.0                  0         32768 i
 
-Total number of prefixes 2
+Total number of prefixes 1
 ```
 
-**`show ip bgp`:**
+**`show bgp ipv4 unicast`:**
 ```
    Network          Next Hop            Metric LocPrf Weight Path
 *> 100.68.0.0/16   100.64.0.1               0             0 65000 i
