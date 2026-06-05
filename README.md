@@ -9,7 +9,7 @@
 
 ## Cara mulai
 
-Clone repo ini di terminal Ubuntu WSL2:
+Clone repo ini di terminal Ubuntu:
 
 ```bash
 git clone https://github.com/indi90/bgp-workshop-labs.git
