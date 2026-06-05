@@ -1,5 +1,6 @@
-# Workshop Pelatihan BGP — INDOSAT / Universitas Muhammadiyah Malang
+# Workshop Pelatihan BGP — Universitas Muhammadiyah Malang
 
+**Penyelenggara:** INDOSAT
 **Tanggal:** 5–7 Juni 2026
 **Lokasi:** Gedung TIK UMM
 **Platform:** ContainerLab + FRRouting (FRR)

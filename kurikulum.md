@@ -1,8 +1,11 @@
 # Kurikulum Workshop Pelatihan BGP
 
 **Penyelenggara:** INDOSAT
+
 **Peserta:** Network Engineer Universitas Muhammadiyah Malang
+
 **Tanggal:** 5–7 Juni 2026 | Gedung TIK UMM
+
 **Platform:** ContainerLab + FRRouting (FRR) di VM Ubuntu 22.04
 
 ---
@@ -11,7 +14,7 @@
 
 Setelah mengikuti workshop ini, peserta mampu:
 
-1. Memahami peran BGP dalam jaringan universitas multi-upstream (IDREN, ISP komersial, IIX)
+1. Memahami peran BGP dalam jaringan universitas multihoming (IDREN, ISP komersial, IIX)
 2. Mengkonfigurasi eBGP dan iBGP menggunakan FRRouting di lingkungan lab
 3. Menerapkan BGP policy dasar: prefix filtering, BGP community, traffic engineering
 4. Mendiagnosa dan memperbaiki masalah BGP secara sistematis
