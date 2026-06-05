@@ -22,7 +22,7 @@ Selesai. Semua file lab, handout, dan slide ada di dalam.
 
 ## Prasyarat
 
-Sebelum hari pertama, siapkan **VM Ubuntu 22.04** di laptop:
+siapkan **VM Ubuntu 22.04** di laptop:
 
 - VirtualBox terinstall di laptop
 - VM Ubuntu 22.04 dengan RAM minimal 4 GB, disk 25 GB
