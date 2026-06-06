@@ -1,6 +1,6 @@
 # Handout LAB-04 — Multi-homing: Traffic Engineering
 
-Workshop BGP — Hari 2 | 6 Juni 2026
+Workshop BGP — Hari 3 | 7 Juni 2026
 
 ---
 
