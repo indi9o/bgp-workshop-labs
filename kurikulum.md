@@ -16,7 +16,7 @@ Setelah mengikuti workshop ini, peserta mampu:
 
 1. Memahami peran BGP dalam jaringan universitas multihoming (IDREN, ISP komersial, IIX)
 2. Mengkonfigurasi eBGP dan iBGP menggunakan FRRouting di lingkungan lab
-3. Menerapkan BGP policy dasar: prefix filtering, BGP community, traffic engineering
+3. Menerapkan BGP policy dasar: prefix filtering, traffic engineering
 4. Mendiagnosa dan memperbaiki masalah BGP secara sistematis
 
 ---
@@ -37,7 +37,7 @@ Setelah mengikuti workshop ini, peserta mampu:
 | Hari | Topik Utama | Modul | Lab |
 |---|---|---|---|
 | Hari 1 | BGP Fundamentals & eBGP | MOD-01, MOD-02 | LAB-01 |
-| Hari 2 | iBGP, Route Reflector & BGP Policy | MOD-03, MOD-04 | LAB-01 (lanjutan), LAB-02, LAB-03 |
+| Hari 2 | iBGP & BGP Policy | MOD-03, MOD-04 | LAB-01 (lanjutan), LAB-02, LAB-03 |
 | Hari 3 | Multi-homing & Troubleshooting | MOD-05, MOD-06 | LAB-04, LAB-05 |
 
 ---
@@ -50,7 +50,7 @@ Setelah mengikuti workshop ini, peserta mampu:
 - Mengapa jaringan UMM membutuhkan BGP — bukan hanya static route
 - Perbedaan BGP dari IGP (OSPF, static) dan kapan masing-masing dipakai
 - Komponen dasar BGP: AS, ASN, prefix, peer, session, state machine
-- Topologi BGP di jaringan UMM: border router, tiga upstream, peran masing-masing
+- Topologi BGP di jaringan UMM: border router, empat upstream, peran masing-masing
 
 ### MOD-02: eBGP Configuration (FRRouting) *(60 menit — Teori + Demo)*
 
@@ -70,44 +70,44 @@ Setelah mengikuti workshop ini, peserta mampu:
 
 ---
 
-## Hari 2 — Sabtu, 6 Juni 2026 | 08.00–15.30
+## Hari 2 — Sabtu, 6 Juni 2026 | 09.00–15.30
 
 ### LAB-01 Lanjutan *(60 menit)*
 
 Melanjutkan dan menyelesaikan LAB-01 dari hari sebelumnya. Review bersama: solusi, common mistakes, Q&A.
 
-### MOD-03: iBGP & Route Reflector *(45 menit — Teori + Demo)*
+### MOD-03: iBGP — 2 Border Router *(45 menit — Teori + Demo)*
 
 **Yang dipelajari:**
 - Mengapa iBGP dibutuhkan ketika UMM punya lebih dari satu BGP-speaking router
 - Perbedaan perilaku iBGP vs eBGP: next-hop, TTL, split horizon
-- Masalah full-mesh iBGP dan solusinya via Route Reflector
-- Konfigurasi Route Reflector di FRRouting
+- Masalah next-hop di iBGP dan solusinya via `next-hop-self`
+- Konfigurasi iBGP session menggunakan loopback interface
 
-### LAB-02: iBGP Full-mesh & Route Reflector *(60 menit)*
+### LAB-02: iBGP — 2 Border Router *(60 menit)*
 
 **Yang dipraktikkan:**
 - Konfigurasi iBGP session antara dua border router UMM menggunakan loopback
+- Konfigurasi `next-hop-self` agar route IDREN reachable dari border-2
 - Verifikasi route dari IDREN di-distribute ke border router kedua via iBGP
-- Konfigurasi Route Reflector dan verifikasi efeknya terhadap distribusi route
 
-### MOD-04: BGP Policy — Prefix Filtering & Communities *(60 menit — Teori + Demo)*
+### MOD-04: BGP Policy — Prefix Filtering *(60 menit — Teori + Demo)*
 
 **Yang dipelajari:**
 - Menerapkan prefix-list dan route-map untuk filter prefix inbound dan outbound
 - Mencegah UMM menjadi transit antara dua upstream (routing leak)
-- Menandai route dengan BGP community untuk kebutuhan policy lanjutan
+- Filter prefix bogon (RFC 1918 + RFC 5737) yang dikirim upstream
 
-### LAB-03: Prefix Filtering & BGP Communities *(60 menit)*
+### LAB-03: Prefix Filtering *(60 menit)*
 
 **Yang dipraktikkan:**
 - Outbound filter: border router UMM hanya mengiklankan prefix milik UMM ke semua upstream
-- Inbound filter: membuang prefix bogon yang dikirim upstream
-- Tagging route dengan BGP community dan verifikasi propagasinya
+- Inbound filter: membuang prefix bogon yang dikirim upstream (termasuk `203.0.113.0/24`)
+- Verifikasi `advertised-routes` dan `received-routes` sebelum dan sesudah policy
 
 ---
 
-## Hari 3 — Minggu, 7 Juni 2026 | 11.00–17.15
+## Hari 3 — Minggu, 7 Juni 2026 | 11.00–16.45
 
 ### MOD-05: BGP Multi-homing — Traffic Engineering *(60 menit — Teori + Demo)*
 
@@ -117,12 +117,12 @@ Melanjutkan dan menyelesaikan LAB-01 dari hari sebelumnya. Review bersama: solus
 - Menggunakan AS-path prepending untuk mempengaruhi traffic masuk ke UMM
 - Menggunakan MED untuk komunikasi preferensi ke upstream yang sama
 
-### LAB-04: Multi-homing — 3 Upstream (IDREN + ISP + IIX) *(60 menit)*
+### LAB-04: Multi-homing — 4 Upstream (IDREN + ISP-1 + ISP-2 + IIX) *(60 menit)*
 
 **Yang dipraktikkan:**
-- Konfigurasi Local Preference: IDREN (200) > IIX (150) > ISP (100)
+- Konfigurasi Local Preference: IDREN (300) > IIX (200) > ISP-1 (150) > ISP-2 (100)
 - Verifikasi BGP best-path selection memilih path dengan local-pref tertinggi
-- Konfigurasi AS-path prepending ke ISP
+- Konfigurasi AS-path prepending ke ISP-1 dan ISP-2 untuk pengaruhi inbound traffic
 - Verifikasi failover otomatis saat IDREN disimulasikan down
 
 ### MOD-06: BGP Troubleshooting — Metodologi & Tools *(45 menit — Teori + Demo)*
@@ -158,14 +158,14 @@ Melanjutkan dan menyelesaikan LAB-01 dari hari sebelumnya. Review bersama: solus
 Semua lab menggunakan topologi berbasis jaringan universitas IDREN:
 
 ```
-  ┌─────────────────────────────────────────────┐
-  │  UMM (AS 65010 / prefix: 100.68.x.x)        │
-  │  [border router]                            │
-  └────────────────┬────────────────────────────┘
-              eBGP │  eBGP  │  eBGP
-                   │        │
-         [IDREN PoP]  [ISP]  [IIX]
-          AS 65000   AS 65100  AS 65200
+  ┌──────────────────────────────────────────────────────────────┐
+  │  UMM (AS 65010 / prefix: 100.68.1.0/24)                     │
+  │  [border-1]                        [border-2]               │
+  └──────┬──────────┬────────────────────────┬──────────┬───────┘
+    eBGP │     eBGP │                   eBGP │     eBGP │
+         │          │                        │          │
+  [IDREN PoP]  [ISP-1]                  [ISP-2]     [IIX]
+   AS 65000   AS 65100                 AS 65101   AS 65200
 ```
 
 IP addressing menggunakan range RFC 6598 (100.64.0.0/10) — khusus untuk shared address space, tidak dipakai di internet publik.
