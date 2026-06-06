@@ -407,35 +407,7 @@ show bgp ipv4 unicast regexp ^65000_7642$
 ```
 Semua prefix dengan AS-path `65000 7642` (hanya UI) harus tampil dengan LocPrf 350.
 
-**Konfigurasi best practice — filter private ASN (di border-1 dan border-2):**
-
-```
-! border-1
-bgp as-path access-list NO-PRIVATE-AS deny _(6451[2-9]|645[2-9][0-9]|64[6-9][0-9][0-9]|6[5-9][0-9][0-9][0-9])_
-bgp as-path access-list NO-PRIVATE-AS permit .*
-
-no route-map IMPORT-FROM-ISP1 permit 10
-route-map IMPORT-FROM-ISP1 permit 10
- match as-path NO-PRIVATE-AS
- set local-preference 150
-
-end ; write memory ; clear ip bgp 100.64.0.5 soft in
-```
-
-```
-! border-2
-bgp as-path access-list NO-PRIVATE-AS deny _(6451[2-9]|645[2-9][0-9]|64[6-9][0-9][0-9]|6[5-9][0-9][0-9][0-9])_
-bgp as-path access-list NO-PRIVATE-AS permit .*
-
-no route-map IMPORT-FROM-ISP2 permit 10
-route-map IMPORT-FROM-ISP2 permit 10
- match as-path NO-PRIVATE-AS
- set local-preference 100
-
-end ; write memory ; clear ip bgp 100.64.0.9 soft in
-```
-
-> ExaBGP lab tidak inject private ASN — semua ISP route tetap lolos. Ini konfigurasi best practice untuk produksi.
+> **⚠️ Filter private ASN JANGAN diaplikasikan di lab ini.** ASN ISP-1 (65100), ISP-2 (65101), dan IIX (65200) termasuk range private 64512–65534 per RFC 6996. Filter ini AKAN memblokir semua route dari ketiga upstream tersebut. Konfigurasi reference untuk produksi ada di MOD-05 §6.
 
 ---
 
