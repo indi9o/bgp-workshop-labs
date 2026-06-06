@@ -403,7 +403,7 @@ show bgp ipv4 unicast 152.118.0.0/16
 **Expected:** path IDREN (AS-path `65000 7642`) → `localpref 350, best`; path ISP-1 (AS-path `65100 7713 23700 7642`) → `localpref 150, not best`.
 
 ```
-show bgp ipv4 unicast regexp ^65000 7642$
+show bgp ipv4 unicast regexp ^65000_7642$
 ```
 Semua prefix dengan AS-path `65000 7642` (hanya UI) harus tampil dengan LocPrf 350.
 
