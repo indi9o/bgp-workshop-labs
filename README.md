@@ -43,8 +43,8 @@ Panduan lengkap instalasi: [setup/setup-containerlab.md](setup/setup-containerla
 bgp-workshop-labs/
 ├── setup/                        ← panduan instalasi ContainerLab
 ├── hari1/  (Jumat 5 Juni)        ← BGP Fundamentals & eBGP
-├── hari2/  (Sabtu 6 Juni)        ← iBGP, Route Reflector, BGP Policy
-└── hari3/  (Minggu 7 Juni)       ← Multi-homing & Troubleshooting
+├── hari2/  (Sabtu 6 Juni)        ← iBGP, BGP Policy & Prefix Filtering
+└── hari3/  (Minggu 7 Juni)       ← Multi-homing TE (LAB-04) & Troubleshooting (LAB-05)
 ```
 
 Tiap folder hari berisi:
@@ -65,8 +65,8 @@ Lihat [kurikulum.md](kurikulum.md) untuk detail lengkap: tujuan pembelajaran per
 | Hari | Tanggal | Topik | Mulai |
 |---|---|---|---|
 | Hari 1 | Jumat 5 Juni | BGP Fundamentals, eBGP Config, LAB-01 | 13.00 |
-| Hari 2 | Sabtu 6 Juni | LAB-01 lanjutan, iBGP & RR, BGP Policy | 08.00 |
-| Hari 3 | Minggu 7 Juni | Multi-homing, Troubleshooting | 11.00 |
+| Hari 2 | Sabtu 6 Juni | LAB-01 lanjutan, iBGP (LAB-02), BGP Policy & Prefix Filtering (LAB-03) | 09.00 |
+| Hari 3 | Minggu 7 Juni | Multi-homing TE (LAB-04), Troubleshooting (LAB-05), Post-test | 11.00 |
 
 ---
 
