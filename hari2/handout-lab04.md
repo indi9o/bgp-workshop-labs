@@ -244,9 +244,9 @@ show bgp ipv4 unicast 152.118.0.0/16
 ```
 ```
 Paths: (2 available, best #1, table default)
-  7642
+  65000 7642
       Origin IGP, localpref 300, valid, internal, best (Local Pref)
-  4761 7713 23700 7642
+  65101 4761 7713 23700 7642
       Origin IGP, localpref 100, valid, external
 ```
 
