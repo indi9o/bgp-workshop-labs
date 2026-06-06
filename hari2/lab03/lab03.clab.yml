@@ -2,6 +2,7 @@ name: lab03-policy
 
 topology:
   nodes:
+    # === UMM border routers (dikonfigurasi peserta) ===
     border-1:
       kind: linux
       image: frrouting/frr:latest
@@ -30,13 +31,59 @@ topology:
         - ip link set eth2 up
         - ip link set eth3 up
 
+    # === Upstream FRR routers (pre-configured trainer) ===
+    frr-idren:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - frr-idren/:/etc/frr/
+      exec:
+        - ip addr add 100.64.0.1/30 dev eth1
+        - ip addr add 100.64.2.1/30 dev eth2
+        - ip link set eth1 up
+        - ip link set eth2 up
+
+    frr-isp1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - frr-isp1/:/etc/frr/
+      exec:
+        - ip addr add 100.64.0.5/30 dev eth1
+        - ip addr add 100.64.2.5/30 dev eth2
+        - ip link set eth1 up
+        - ip link set eth2 up
+
+    frr-isp2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - frr-isp2/:/etc/frr/
+      exec:
+        - ip addr add 100.64.0.9/30 dev eth1
+        - ip addr add 100.64.2.9/30 dev eth2
+        - ip link set eth1 up
+        - ip link set eth2 up
+
+    frr-iix:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - frr-iix/:/etc/frr/
+      exec:
+        - ip addr add 100.64.0.13/30 dev eth1
+        - ip addr add 100.64.2.13/30 dev eth2
+        - ip link set eth1 up
+        - ip link set eth2 up
+
+    # === ExaBGP route injectors (pre-configured trainer) ===
     exabgp-idren:
       kind: linux
       image: pierky/exabgp
       binds:
         - exabgp-idren/exabgp.conf:/etc/exabgp/exabgp.conf:ro
       exec:
-        - ip addr add 100.64.0.1/30 dev eth1
+        - ip addr add 100.64.2.2/30 dev eth1
         - ip link set eth1 up
 
     exabgp-isp1:
@@ -45,7 +92,7 @@ topology:
       binds:
         - exabgp-isp1/exabgp.conf:/etc/exabgp/exabgp.conf:ro
       exec:
-        - ip addr add 100.64.0.5/30 dev eth1
+        - ip addr add 100.64.2.6/30 dev eth1
         - ip link set eth1 up
 
     exabgp-isp2:
@@ -54,7 +101,7 @@ topology:
       binds:
         - exabgp-isp2/exabgp.conf:/etc/exabgp/exabgp.conf:ro
       exec:
-        - ip addr add 100.64.0.9/30 dev eth1
+        - ip addr add 100.64.2.10/30 dev eth1
         - ip link set eth1 up
 
     exabgp-iix:
@@ -63,12 +110,18 @@ topology:
       binds:
         - exabgp-iix/exabgp.conf:/etc/exabgp/exabgp.conf:ro
       exec:
-        - ip addr add 100.64.0.13/30 dev eth1
+        - ip addr add 100.64.2.14/30 dev eth1
         - ip link set eth1 up
 
   links:
-    - endpoints: ["border-1:eth1", "exabgp-idren:eth1"]
-    - endpoints: ["border-1:eth2", "exabgp-isp1:eth1"]
+    # UMM ↔ upstream FRR (eBGP)
+    - endpoints: ["border-1:eth1", "frr-idren:eth1"]
+    - endpoints: ["border-1:eth2", "frr-isp1:eth1"]
     - endpoints: ["border-1:eth3", "border-2:eth3"]
-    - endpoints: ["border-2:eth1", "exabgp-isp2:eth1"]
-    - endpoints: ["border-2:eth2", "exabgp-iix:eth1"]
+    - endpoints: ["border-2:eth1", "frr-isp2:eth1"]
+    - endpoints: ["border-2:eth2", "frr-iix:eth1"]
+    # upstream FRR ↔ ExaBGP (iBGP internal)
+    - endpoints: ["frr-idren:eth2", "exabgp-idren:eth1"]
+    - endpoints: ["frr-isp1:eth2", "exabgp-isp1:eth1"]
+    - endpoints: ["frr-isp2:eth2", "exabgp-isp2:eth1"]
+    - endpoints: ["frr-iix:eth2", "exabgp-iix:eth1"]
