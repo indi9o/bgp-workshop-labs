@@ -191,7 +191,7 @@ frrouting/frr   latest   abc123def456   2 weeks ago   198MB
 
 ```bash
 sudo apt install -y git
-git clone https://github.com/indi90/bgp-workshop-labs.git
+git clone https://github.com/indi9o/bgp-workshop-labs.git
 cd bgp-workshop-labs
 ls
 ```

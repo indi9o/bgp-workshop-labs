@@ -12,7 +12,7 @@
 Clone repo ini:
 
 ```bash
-git clone https://github.com/indi90/bgp-workshop-labs.git
+git clone https://github.com/indi9o/bgp-workshop-labs.git
 cd bgp-workshop-labs
 ```
 
