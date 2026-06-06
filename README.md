@@ -66,7 +66,7 @@ Lihat [kurikulum.md](kurikulum.md) untuk detail lengkap: tujuan pembelajaran per
 |---|---|---|---|
 | Hari 1 | Jumat 5 Juni | BGP Fundamentals, eBGP Config, LAB-01 | 13.00 |
 | Hari 2 | Sabtu 6 Juni | LAB-01 lanjutan, iBGP (LAB-02), BGP Policy & Prefix Filtering (LAB-03) | 09.00 |
-| Hari 3 | Minggu 7 Juni | Multi-homing TE (LAB-04), Troubleshooting (LAB-05), Post-test | 11.00 |
+| Hari 3 | Minggu 7 Juni | Multi-homing TE (LAB-04), Troubleshooting (LAB-05), Post-test | 10.30 |
 
 ---
 

@@ -107,7 +107,7 @@ Melanjutkan dan menyelesaikan LAB-01 dari hari sebelumnya. Review bersama: solus
 
 ---
 
-## Hari 3 — Minggu, 7 Juni 2026 | 11.00–16.45
+## Hari 3 — Minggu, 7 Juni 2026 | 10.30–15.00
 
 ### MOD-05: BGP Multi-homing — Traffic Engineering *(60 menit — Teori + Demo)*
 
