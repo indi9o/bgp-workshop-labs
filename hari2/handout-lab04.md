@@ -375,7 +375,7 @@ Ubah `IMPORT-FROM-IDREN` di border-1 — prefix universitas Indonesia yang diori
 ```
 configure terminal
 
-bgp as-path access-list UNIV-ID-DIRECT permit ^(7642|7654|24855|17622|7710|23949|4796)$
+bgp as-path access-list UNIV-ID-DIRECT permit ^(7642|7654|24855|45166|45974|45958|45997)$
 
 no route-map IMPORT-FROM-IDREN permit 10
 
