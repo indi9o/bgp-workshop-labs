@@ -1,0 +1,74 @@
+name: lab03-policy
+
+topology:
+  nodes:
+    border-1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - border-1/:/etc/frr/
+      exec:
+        - ip addr add 100.64.0.2/30 dev eth1
+        - ip addr add 100.64.0.6/30 dev eth2
+        - ip addr add 100.64.0.17/30 dev eth3
+        - ip addr add 100.64.1.1/32 dev lo
+        - ip link set eth1 up
+        - ip link set eth2 up
+        - ip link set eth3 up
+
+    border-2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - border-2/:/etc/frr/
+      exec:
+        - ip addr add 100.64.0.10/30 dev eth1
+        - ip addr add 100.64.0.14/30 dev eth2
+        - ip addr add 100.64.0.18/30 dev eth3
+        - ip addr add 100.64.1.2/32 dev lo
+        - ip link set eth1 up
+        - ip link set eth2 up
+        - ip link set eth3 up
+
+    exabgp-idren:
+      kind: linux
+      image: pierky/exabgp
+      binds:
+        - exabgp-idren/exabgp.conf:/etc/exabgp/exabgp.conf:ro
+      exec:
+        - ip addr add 100.64.0.1/30 dev eth1
+        - ip link set eth1 up
+
+    exabgp-isp1:
+      kind: linux
+      image: pierky/exabgp
+      binds:
+        - exabgp-isp1/exabgp.conf:/etc/exabgp/exabgp.conf:ro
+      exec:
+        - ip addr add 100.64.0.5/30 dev eth1
+        - ip link set eth1 up
+
+    exabgp-isp2:
+      kind: linux
+      image: pierky/exabgp
+      binds:
+        - exabgp-isp2/exabgp.conf:/etc/exabgp/exabgp.conf:ro
+      exec:
+        - ip addr add 100.64.0.9/30 dev eth1
+        - ip link set eth1 up
+
+    exabgp-iix:
+      kind: linux
+      image: pierky/exabgp
+      binds:
+        - exabgp-iix/exabgp.conf:/etc/exabgp/exabgp.conf:ro
+      exec:
+        - ip addr add 100.64.0.13/30 dev eth1
+        - ip link set eth1 up
+
+  links:
+    - endpoints: ["border-1:eth1", "exabgp-idren:eth1"]
+    - endpoints: ["border-1:eth2", "exabgp-isp1:eth1"]
+    - endpoints: ["border-1:eth3", "border-2:eth3"]
+    - endpoints: ["border-2:eth1", "exabgp-isp2:eth1"]
+    - endpoints: ["border-2:eth2", "exabgp-iix:eth1"]
