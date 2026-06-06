@@ -264,6 +264,9 @@ router bgp 65010
 
 end
 write memory
+
+clear ip bgp 100.64.0.9 soft in
+clear ip bgp 100.64.0.13 soft in
 ```
 
 ---
