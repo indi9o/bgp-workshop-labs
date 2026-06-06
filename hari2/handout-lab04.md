@@ -14,10 +14,14 @@ Workshop BGP — Hari 2 | 6 Juni 2026
           │  eth1→IDREN              eth1→ISP-2                  │
           │  eth2→ISP-1              eth2→IIX                    │
           └──────┬──────────┬──────────────────┬──────┬─────────┘
-          [exabgp-idren] [exabgp-isp1]  [exabgp-isp2] [exabgp-iix]
-          AS 65000     AS 65100         AS 65101        AS 65200
-          .1/30        .5/30            .9/30           .13/30
-                 (semua pre-configured ExaBGP — trainer)
+                 │ eBGP     │ eBGP        eBGP │      │ eBGP
+          [frr-idren]  [frr-isp1]   [frr-isp2] [frr-iix]
+          AS 65000     AS 65100     AS 65101    AS 65200
+          .1/30        .5/30        .9/30       .13/30
+               │ iBGP       │ iBGP      │ iBGP      │ iBGP
+          [exabgp-idren] [exabgp-isp1] [exabgp-isp2] [exabgp-iix]
+          .2/30          .6/30         .10/30         .14/30
+                 (semua pre-configured — trainer)
 ```
 
 **Target traffic engineering:**
@@ -375,7 +379,7 @@ Ubah `IMPORT-FROM-IDREN` di border-1 — prefix universitas Indonesia yang diori
 ```
 configure terminal
 
-bgp as-path access-list UNIV-ID-DIRECT permit ^(7642|7654|24855|45166|45974|45958|45997)$
+bgp as-path access-list UNIV-ID-DIRECT permit ^65000 (7642|7654|24855|45166|45974|45958|45997)$
 
 no route-map IMPORT-FROM-IDREN permit 10
 
@@ -396,12 +400,12 @@ Verifikasi:
 ```
 show bgp ipv4 unicast 152.118.0.0/16
 ```
-**Expected:** path IDREN (AS-path `7642`) → `localpref 350, best`; path ISP-1 (AS-path `7713 23700 7642`) → `localpref 150, not best`.
+**Expected:** path IDREN (AS-path `65000 7642`) → `localpref 350, best`; path ISP-1 (AS-path `65100 7713 23700 7642`) → `localpref 150, not best`.
 
 ```
-show bgp ipv4 unicast regexp ^7642$
+show bgp ipv4 unicast regexp ^65000 7642$
 ```
-Semua prefix dengan AS-path `7642` (hanya UI) harus tampil dengan LocPrf 350.
+Semua prefix dengan AS-path `65000 7642` (hanya UI) harus tampil dengan LocPrf 350.
 
 **Konfigurasi best practice — filter private ASN (di border-1 dan border-2):**
 
