@@ -14,10 +14,12 @@ Workshop BGP — Hari 2 | 6 Juni 2026
           │  eth1→IDREN              eth1→ISP-2                  │
           │  eth2→ISP-1              eth2→IIX                    │
           └──────┬──────────┬──────────────────┬──────┬─────────┘
-          [exabgp-idren] [exabgp-isp1]  [exabgp-isp2] [exabgp-iix]
-          AS 65000     AS 65100         AS 65101        AS 65200
-          .1/30        .5/30            .9/30           .13/30
-                 (semua ExaBGP pre-configured trainer)
+          [frr-idren]  [frr-isp1]   [frr-isp2]  [frr-iix]
+          AS 65000     AS 65100     AS 65101    AS 65200
+          .1/30        .5/30        .9/30       .13/30
+               │iBGP        │iBGP       │iBGP       │iBGP
+          [exabgp-idren] [exabgp-isp1] [exabgp-isp2] [exabgp-iix]
+                 (semua pre-configured trainer — peserta tidak perlu sentuh)
 ```
 
 **Prefix yang diinject upstream (ExaBGP internet simulation):**
@@ -26,7 +28,7 @@ Workshop BGP — Hari 2 | 6 Juni 2026
 |---|---|---|---|
 | exabgp-idren | `152.118.0.0/16`, `167.205.0.0/16`, `103.13.180.0/22` | ~20 | Prefix akademik Indonesia (UI, ITB, UGM, ITS, dll) |
 | exabgp-isp1 | `36.66.0.0/16`, `8.8.8.0/24`, `1.1.1.0/24`, `100.121.0.0/16` | ~36 | Prefix komersial + CDN global |
-| exabgp-isp1 | `192.168.100.0/24` | 1 | **Bogon RFC 1918 — harus difilter inbound di border-1** |
+| exabgp-isp1 | `203.0.113.0/24` | 1 | **Bogon RFC 5737 TEST-NET-3 — harus difilter inbound di border-1** |
 | exabgp-isp2 | `100.121.0.0/16`, `100.122.0.0/16`, `1.1.1.0/24` | ~25 | Prefix komersial via ISP-2 |
 | exabgp-iix | `157.240.0.0/16`, `103.53.12.0/22`, `8.8.8.0/24` | ~25 | Konten lokal Indonesia |
 
@@ -48,6 +50,7 @@ Workshop BGP — Hari 2 | 6 Juni 2026
 ```bash
 mkdir ~/lab03 && cd ~/lab03
 # Salin file dari trainer: lab03.clab.yml, border-1/, border-2/,
+#   frr-idren/, frr-isp1/, frr-isp2/, frr-iix/,
 #   exabgp-idren/, exabgp-isp1/, exabgp-isp2/, exabgp-iix/
 docker pull pierky/exabgp   # jika belum ada
 containerlab deploy -t lab03.clab.yml
@@ -152,7 +155,7 @@ show bgp ipv4 unicast
 show bgp ipv4 unicast neighbors 100.64.0.1 advertised-routes
 ```
 
-Perhatikan: `192.168.100.0/24` dari ISP-1 masuk BGP table, dan border-1 masih iklankan semua prefix ke IDREN.
+Perhatikan: `203.0.113.0/24` dari ISP-1 masuk BGP table, dan border-1 masih iklankan semua prefix ke IDREN.
 
 ---
 
@@ -224,6 +227,9 @@ ip prefix-list BOGON seq 20 deny 172.16.0.0/12 le 32
 ip prefix-list BOGON seq 30 deny 192.168.0.0/16 le 32
 ip prefix-list BOGON seq 40 deny 127.0.0.0/8 le 32
 ip prefix-list BOGON seq 50 deny 169.254.0.0/16 le 32
+ip prefix-list BOGON seq 60 deny 192.0.2.0/24
+ip prefix-list BOGON seq 70 deny 198.51.100.0/24
+ip prefix-list BOGON seq 80 deny 203.0.113.0/24
 ip prefix-list BOGON seq 99 permit any
 
 route-map IMPORT-COMMON permit 10
@@ -251,6 +257,9 @@ ip prefix-list BOGON seq 20 deny 172.16.0.0/12 le 32
 ip prefix-list BOGON seq 30 deny 192.168.0.0/16 le 32
 ip prefix-list BOGON seq 40 deny 127.0.0.0/8 le 32
 ip prefix-list BOGON seq 50 deny 169.254.0.0/16 le 32
+ip prefix-list BOGON seq 60 deny 192.0.2.0/24
+ip prefix-list BOGON seq 70 deny 198.51.100.0/24
+ip prefix-list BOGON seq 80 deny 203.0.113.0/24
 ip prefix-list BOGON seq 99 permit any
 
 route-map IMPORT-COMMON permit 10
@@ -293,12 +302,12 @@ Di border-1:
 ```
 show bgp ipv4 unicast neighbors 100.64.0.5 received-routes
 ```
-`192.168.100.0/24` ada di `received-routes` (datang dari ISP-1).
+`203.0.113.0/24` ada di `received-routes` (datang dari ISP-1).
 
 ```
 show bgp ipv4 unicast
 ```
-`192.168.100.0/24` **tidak ada** (dibuang inbound policy).
+`203.0.113.0/24` **tidak ada** (dibuang inbound policy).
 
 ---
 

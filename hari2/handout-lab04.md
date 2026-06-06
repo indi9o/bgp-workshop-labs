@@ -53,6 +53,7 @@ Workshop BGP — Hari 2 | 6 Juni 2026
 ```bash
 mkdir ~/lab04 && cd ~/lab04
 # Salin file dari trainer: lab04.clab.yml, border-1/, border-2/,
+#   frr-idren/, frr-isp1/, frr-isp2/, frr-iix/,
 #   exabgp-idren/, exabgp-isp1/, exabgp-isp2/, exabgp-iix/
 docker pull pierky/exabgp   # jika belum ada
 containerlab deploy -t lab04.clab.yml

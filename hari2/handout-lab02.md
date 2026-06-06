@@ -189,20 +189,20 @@ Neighbor        V         AS   MsgRcvd   MsgSent   Up/Down State/PfxRcd
 *>i152.118.0.0/16    100.64.1.1                    100      0 7642 i
 *>i167.205.0.0/16    100.64.1.1                    100      0 7654 i
 *>i103.13.180.0/22   100.64.1.1                    100      0 24855 i
-*>i100.72.1.0/24     100.64.1.1               0    100      0 i
-*>i100.72.2.0/24     100.64.1.1               0    100      0 i
+*>  100.72.1.0/24     0.0.0.0                  0         32768 i
+*>  100.72.2.0/24     0.0.0.0                  0         32768 i
 ```
-- `i` sebelum network = route dari iBGP
+- `*>i` = best path via iBGP (berlaku untuk prefix IDREN seperti `152.118.0.0/16`)
+- `*>` = locally originated di router sendiri (berlaku untuk prefix UMM `100.72.x.0/24`)
 - AS-path: ASN universitas asli (7642=UI, 7654=ITB, 24855=UGM, dll) — ExaBGP static route tidak auto-prepend ASN IDREN (65000), ini normal untuk simulasi
-- Next-hop `100.64.1.1` = loopback border-1 (bukan IP exabgp-idren `100.64.0.1`)
+- Next-hop `100.64.1.1` = loopback border-1 (bukan IP exabgp-idren)
 
 **`show ip route bgp` di border-2:**
 ```
 B>  152.118.0.0/16 [200/0] via 100.64.1.1 (recursive), weight 1
   *                          via 100.64.0.17, eth3
-B>  100.72.1.0/24 [200/0] via 100.64.1.1 (recursive), weight 1
-  *                          via 100.64.0.17, eth3
 ```
+> Prefix UMM (`100.72.x.0/24`) tidak muncul di `show ip route bgp` border-2 — static null route (AD 1) di routing table mengalahkan BGP (AD 200), sehingga BGP route tidak diinstall.
 
 ---
 
