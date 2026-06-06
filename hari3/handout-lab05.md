@@ -14,7 +14,7 @@ Workshop BGP — Hari 3 | 7 Juni 2026
   └──────────────────────────┘         └──────────────────────────┘
 ```
 
-Topologi sederhana 2 node. **Tiga bug sudah ditanam** — temukan dan perbaiki dari gejala, bukan dari konfigurasi.
+Topologi sederhana 2 node. **Tiga issue sudah ditanam** — temukan dan perbaiki dari gejala, bukan dari konfigurasi.
 
 **Kondisi akhir yang benar:**
 - Session `Established` antara umm-border ↔ idren-pop
@@ -53,7 +53,7 @@ Diagnosis bottom-up: Layer 3 → TCP 179 → BGP session → prefix.
 
 ---
 
-## Bug #1 — Session tidak Established
+## Issue #1 — Session tidak Established
 
 **Gejala:** `show bgp summary` → state `Active`
 
@@ -70,7 +70,7 @@ show bgp ipv4 unicast neighbors 100.64.0.1
 Perhatikan NOTIFICATION message — apa yang dinegosiasikan saat OPEN?
 
 <details>
-<summary>▶ Spoiler Bug #1</summary>
+<summary>▶ Spoiler Issue #1</summary>
 
 **Root cause:** `remote-as 65099` di umm-border — seharusnya `65000`.
 
@@ -89,7 +89,7 @@ Tunggu 30 detik, cek `show bgp summary` → harus `Established`.
 
 ---
 
-## Bug #2 — Prefix tidak diiklankan
+## Issue #2 — Prefix tidak diiklankan
 
 **Gejala:** session Established, tapi `100.68.1.0/24` tidak muncul di advertised-routes.
 
@@ -102,7 +102,7 @@ show ip route 100.68.1.0/24
 Petunjuk: BGP `network` statement hanya iklankan prefix yang ada di routing table (exact match).
 
 <details>
-<summary>▶ Spoiler Bug #2</summary>
+<summary>▶ Spoiler Issue #2</summary>
 
 **Root cause:** Tidak ada `ip route 100.68.1.0/24 null0` — prefix tidak ada di routing table.
 
@@ -119,7 +119,7 @@ Verifikasi: `show bgp ipv4 unicast neighbors 100.64.0.1 advertised-routes` → h
 
 ---
 
-## Bug #3 — Prefix UMM tidak diterima di idren-pop
+## Issue #3 — Prefix UMM tidak diterima di idren-pop
 
 **Gejala:** `PfxRcd: 0` di idren-pop meski umm-border sudah advertise `100.68.1.0/24`.
 
@@ -138,7 +138,7 @@ show route-map
 Petunjuk: `received-routes` ada isinya tapi `routes` kosong → ada inbound policy yang memblokir.
 
 <details>
-<summary>▶ Spoiler Bug #3</summary>
+<summary>▶ Spoiler Issue #3</summary>
 
 **Root cause:** Route-map `BLOCK-INBOUND` dengan prefix-list `BLOCK-ALL` aktif di idren-pop.
 
@@ -168,9 +168,9 @@ clear ip bgp 100.64.0.2 soft in
 
 ---
 
-## Ringkasan bug
+## Ringkasan issue
 
-| Bug | Layer | Gejala | Root Cause |
+| Issue | Layer | Gejala | Root Cause |
 |---|---|---|---|
 | #1 | BGP session | State `Active`, NOTIFICATION Bad Peer AS | `remote-as 65099` → seharusnya `65000` |
 | #2 | Prefix advertisement | Prefix tidak di advertised-routes | Tidak ada `ip route 100.68.1.0/24 null0` |
