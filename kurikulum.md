@@ -137,7 +137,7 @@ Melanjutkan dan menyelesaikan LAB-01 dari hari sebelumnya. Review bersama: solus
 **Yang dipraktikkan:**
 - Menerapkan metodologi troubleshooting BGP secara sistematis
 - Mendiagnosa dan memperbaiki tiga bug yang sengaja ditanam di topologi
-- Menggunakan output `show bgp summary`, `show bgp neighbors`, dan log untuk identifikasi masalah
+- Menggunakan output `show bgp summary`, `show bgp ipv4 unicast neighbors`, dan log untuk identifikasi masalah
 
 ---
 
