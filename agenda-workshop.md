@@ -1,4 +1,4 @@
-# Kurikulum Workshop Pelatihan BGP
+# Agenda Workshop Pelatihan BGP
 
 **Penyelenggara:** INDOSAT
 

@@ -54,9 +54,9 @@ Tiap folder hari berisi:
 
 ---
 
-## Kurikulum
+## Agenda Workshop
 
-Lihat [kurikulum.md](kurikulum.md) untuk detail lengkap: tujuan pembelajaran per modul, topik yang dibahas, dan deskripsi setiap lab.
+Lihat [agenda-workshop.md](agenda-workshop.md) untuk detail lengkap: tujuan pembelajaran per modul, topik yang dibahas, dan deskripsi setiap lab.
 
 ---
 
